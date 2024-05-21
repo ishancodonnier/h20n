@@ -42,7 +42,7 @@ class UserController extends Controller
             'user_profile_photo' => '',
             'password' => Hash::make($request->password),
             'social_id' => '',
-            'login_type' => '',
+            'login_type' => 'email',
             'country_code' => '',
             'phone_number' => '',
             'device_push_token' => '',
