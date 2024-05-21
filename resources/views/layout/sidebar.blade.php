@@ -1,8 +1,7 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <a href="{{ route('dashboard') }}" class="brand-link text-center">
-        {{-- <img src="{{ asset('images/logo-black.png') }}" alt="AdminLTE Logo" class="brand-image"
-            style="opacity: .8"> --}}
-        <span class="font-weight-bold"></span>
+        {{-- <img src="{{ asset('images/logo.png') }}" alt="H2On Logo" class="brand-image"> --}}
+        <span class="font-weight-bold">H2On</span>
     </a>
 
     <div class="sidebar">
