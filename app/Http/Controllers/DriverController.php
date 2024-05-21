@@ -2,24 +2,24 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use App\Models\Universities;
 use App\Models\Users;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
-class UserController extends Controller
+class DriverController extends Controller
 {
     public function index()
     {
-        $pagetitle = 'User';
-        $users = Users::where('user_type', 'USER')->get();
-        return view('user.index', compact('pagetitle', 'users'));
+        $pagetitle = 'Driver';
+        $drivers = Users::where('user_type', 'DRIVER')->get();
+        return view('driver.index', compact('pagetitle', 'drivers'));
     }
 
     public function create()
     {
-        $pagetitle = 'User Create';
-        return view('user.create', compact('pagetitle'));
+        $pagetitle = 'Driver Create';
+        return view('driver.create', compact('pagetitle'));
     }
 
     public function store(Request $request)
@@ -38,7 +38,7 @@ class UserController extends Controller
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
             'email' => $request->email,
-            'user_type' => 'USER',
+            'user_type' => 'DRIVER',
             'user_profile_photo' => '',
             'password' => Hash::make($request->password),
             'social_id' => '',
@@ -64,7 +64,7 @@ class UserController extends Controller
             'user_token' => $user_token,
         ]);
 
-        return redirect()->route('user.index')->with('success', 'User created successfully!');
+        return redirect()->route('driver.index')->with('success', 'Driver created successfully!');
     }
 
     public function show($id)
@@ -74,22 +74,22 @@ class UserController extends Controller
 
     public function edit($id)
     {
-        $pagetitle = 'User Edit';
-        $user = Users::where('user_id', $id)->first();
+        $pagetitle = 'Driver Edit';
+        $driver = Users::where('user_id', $id)->first();
 
-        if (!$user) {
-            return redirect()->route('user.index')->with('error', 'User Not Found');
+        if (!$driver) {
+            return redirect()->route('driver.index')->with('error', 'Driver Not Found');
         }
 
-        return view('user.edit', compact('pagetitle', 'user'));
+        return view('driver.edit', compact('pagetitle', 'driver'));
     }
 
     public function update(Request $request, $id)
     {
-        $user = Users::where('user_id', $id)->first();
+        $driver = Users::where('user_id', $id)->first();
 
-        if (!$user) {
-            return redirect()->route('user.index')->with('error', 'User Not Found');
+        if (!$driver) {
+            return redirect()->route('driver.index')->with('error', 'Driver Not Found');
         }
 
         $request->validate([
@@ -107,26 +107,26 @@ class UserController extends Controller
             'updated_date' => date('Y-m-d H:i:s')
         ];
 
-        $user->update($data);
+        $driver->update($data);
 
-        return redirect()->route('user.index')->with('success', 'User updated successfully!');
+        return redirect()->route('driver.index')->with('success', 'Driver updated successfully!');
     }
 
     public function destroy($id)
     {
-        $user = Users::where('user_id', $id)->first();
-        if($user->is_deleted == 0) {
-            $user->update([
+        $driver = Users::where('user_id', $id)->first();
+        if($driver->is_deleted == 0) {
+            $driver->update([
                 'is_deleted' => 1,
                 'updated_date' => date('Y-m-d H:i:s')
             ]);
-            return redirect()->route('user.index')->with('success', 'User deleted successfully!');
+            return redirect()->route('driver.index')->with('success', 'Driver deleted successfully!');
         } else {
-            $user->update([
+            $driver->update([
                 'is_deleted' => 0,
                 'updated_date' => date('Y-m-d H:i:s')
             ]);
-            return redirect()->route('user.index')->with('success', 'User restored successfully!');
+            return redirect()->route('driver.index')->with('success', 'Driver restored successfully!');
         }
     }
 

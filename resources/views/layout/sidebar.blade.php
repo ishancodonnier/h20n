@@ -24,6 +24,14 @@
                         </p>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a href="{{ route('driver.index') }}" class="nav-link">
+                        <i class="nav-icon fa fa-id-card"></i>
+                        <p>
+                            Driver
+                        </p>
+                    </a>
+                </li>
             </ul>
         </nav>
     </div>
