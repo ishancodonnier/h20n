@@ -38,7 +38,8 @@ class Users extends Model
         'updated_date'
     ];
 
-    public function address() {
+    public function address()
+    {
         return $this->hasMany(UserAddress::class, 'user_token', 'user_token');
     }
 }

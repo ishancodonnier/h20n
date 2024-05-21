@@ -24,6 +24,24 @@
                         </p>
                     </a>
                 </li>
+
+                <li class="nav-item">
+                    <a href="{{ route('category.index') }}" class="nav-link">
+                        <i class="nav-icon fas fa-border-all"></i>
+                        <p>
+                            Categories
+                        </p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="{{ route('product.index') }}" class="nav-link">
+                        <i class="nav-icon fas fa-tint"></i>
+                        <p>
+                            Products
+                        </p>
+                    </a>
+                </li>
             </ul>
         </nav>
     </div>
