@@ -21,31 +21,32 @@
                             action="{{ route('user.update', ['id' => $user->user_id]) }}" enctype="multipart/form-data">
                             @csrf
 
-                            <input type="hidden" name="user_latitude" id="user_latitude"
-                                value="{{ $user->user_latitude }}">
-                            <input type="hidden" name="user_longitude" id="user_longitude"
-                                value="{{ $user->user_longitude }}">
-
                             <div class="card-body">
 
-
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label>Full Name</label>
+                                            <label for="first_name">First Name</label>
                                             <input type="text"
-                                                class="form-control @error('full_name') is-invalid @enderror" id="full_name"
-                                                name="full_name" placeholder="Enter Full Name"
-                                                value="{{ old('full_name') ?? $user->full_name }}">
+                                                class="form-control @error('first_name') is-invalid @enderror"
+                                                name="first_name" value="{{ $user->first_name }}" id="first_name" placeholder="Enter First Name">
+                                            @error('first_name')
+                                                <span class="error invalid-feedback"
+                                                    style="display: block">{{ $message }}</span>
+                                            @enderror
                                         </div>
                                     </div>
 
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label>Email</label>
-                                            <input type="email" class="form-control @error('email') is-invalid @enderror"
-                                                id="email" name="email" placeholder="Enter Email"
-                                                value="{{ old('email') ?? $user->email }}" readonly>
+                                            <label for="last_name">Last Name</label>
+                                            <input type="text"
+                                                class="form-control @error('last_name') is-invalid @enderror"
+                                                name="last_name" value="{{ $user->last_name }}" id="last_name" placeholder="Enter Last Name">
+                                            @error('last_name')
+                                                <span class="error invalid-feedback"
+                                                    style="display: block">{{ $message }}</span>
+                                            @enderror
                                         </div>
                                     </div>
                                 </div>
@@ -53,24 +54,14 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label>Universities</label>
-                                            <select class="form-control select2bs4" name="university_id" id="university_id">
-                                                @foreach ($universities as $uni)
-                                                    <option @if ($uni->university_id == $user->university_id) selected @endif()
-                                                        value="{{ $uni->university_id }}">{{ $uni->university_name }}
-                                                    </option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label>User Location</label>
-                                            <input type="text"
-                                                class="form-control @error('user_location') is-invalid @enderror"
-                                                id="user_location" name="user_location" placeholder="Enter User Location"
-                                                value="{{ old('user_location') ?? $user->user_location }}">
+                                            <label for="email">Email</label>
+                                            <input type="email"
+                                                class="form-control @error('email') is-invalid @enderror"
+                                                name="email" id="email" value="{{ $user->email }}" placeholder="Enter Email">
+                                            @error('email')
+                                                <span class="error invalid-feedback"
+                                                    style="display: block">{{ $message }}</span>
+                                            @enderror
                                         </div>
                                     </div>
                                 </div>
@@ -78,27 +69,33 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label>Student ID Image</label>
-                                            <div class="custom-file">
-                                                <input type="file" class="custom-file-input" name="student_id_images"
-                                                    id="student_id_images" accept="image/*">
-                                                <label class="custom-file-label" for="student_id_images">Choose
-                                                    Image</label>
+                                            <label for="title">Status</label>
+                                            <div>
+                                                <div class="icheck-primary d-inline mr-3">
+                                                    <input type="radio" id="active" name="is_active" value="1"
+                                                        @if ($user->is_active == 1) checked @endif>
+                                                    <label for="active">
+                                                        Active
+                                                    </label>
+                                                </div>
+                                                <div class="icheck-danger d-inline">
+                                                    <input type="radio" name="is_active" id="inactive" value="0"
+                                                        @if ($user->is_active == 0) checked @endif>
+                                                    <label for="inactive">
+                                                        Inactive
+                                                    </label>
+                                                </div>
                                             </div>
+                                            @error('is_active')
+                                                <span class="error invalid-feedback" style="display: block">{{ $message }}</span>
+                                            @enderror
                                         </div>
                                     </div>
-                                </div>
-
-                                <div class="d-flex flex-wrap gap-2">
-                                    @if ($user->student_id_images)
-                                        <img src="{{ env('SERVER_IMAGE_URL') . 'student_id_images/' . $user->student_id_images }}"
-                                            style="width: 200px; height: 200px; object-fit: contain;">
-                                    @endif
                                 </div>
 
                             </div>
                             <div class="card-footer">
-                                <button type="submit" class="btn btn-primary" onclick="submitForm()">Submit</button>
+                                <button type="submit" class="btn btn-primary">Submit</button>
                             </div>
                         </form>
                     </div>
@@ -117,31 +114,23 @@
     <script src="{{ asset('asset/plugins/summernote/summernote-bs4.min.js') }}"></script>
     <script src="{{ asset('asset/plugins/bs-custom-file-input/bs-custom-file-input.min.js') }}"></script>
 
-    <script type="text/javascript"
-        src="https://maps.google.com/maps/api/js?key={{ env('GOOGLE_MAP_KEY') }}&libraries=places"></script>
-
     <script>
         $('.select2bs4').select2({
             theme: 'bootstrap4'
         });
 
         $(function() {
-
-            bsCustomFileInput.init();
-
-
             var validationRules = {
-                "full_name": "required",
-                "university_id": "required",
-                "user_location": "required",
+                "first_name": "required",
+                "last_name": "required",
+                "email": "required",
             };
 
             var validation_messages = {
-                "full_name": "Please Enter Full Name",
-                "university_id": "Please Select University",
-                "user_location": "Please Enter Location",
+                "first_name": "Please Enter First Name",
+                "last_name": "Please Enter Last Name",
+                "email": "Please Enter Email",
             };
-
 
             $('#user_edit_form').validate({
                 rules: validationRules,
@@ -158,32 +147,6 @@
                     $(element).removeClass('is-invalid');
                 }
             });
-
         });
-
-        function submitForm() {
-            $('#user_edit_form').submit();
-        }
-
-        $('#user_edit_form').on('keydown', function(e) {
-            if (e.key === 'Enter') {
-                e.preventDefault();
-            }
-        });
-    </script>
-    <script>
-        // google.maps.event.addDomListener(window, 'load', initialize);
-        window.addEventListener('load', initialize);
-
-        function initialize() {
-            var input = document.getElementById('user_location');
-            var autocomplete = new google.maps.places.Autocomplete(input);
-
-            autocomplete.addListener('place_changed', function() {
-                var place = autocomplete.getPlace();
-                $('#user_latitude').val(place.geometry['location'].lat());
-                $('#user_longitude').val(place.geometry['location'].lng());
-            });
-        }
     </script>
 @endsection
