@@ -10,6 +10,6 @@ class DashboardController extends Controller
     public function dashboard()
     {
         $pagetitle = 'Dashboard';
-        return view('dashboard', compact('pagetitle', 'user'));
+        return view('dashboard', compact('pagetitle'));
     }
 }

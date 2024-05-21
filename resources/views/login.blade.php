@@ -31,7 +31,7 @@
     <div class="login-box" style="width: 361px">
         <div class="card card-outline card-primary">
             <div class="card-header text-center">
-                <span class="h1"><b>Admin</b></span>
+                <span class="h1">H2On <b>Admin</b></span>
             </div>
             <div class="card-body">
                 <p class="login-box-msg">Sign in to start your session</p>
