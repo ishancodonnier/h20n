@@ -49,6 +49,16 @@
                                                     <i class="fas fa-pencil-alt"></i>
                                                 </a>
 
+                                                @if ($us->is_active)
+                                                    <a href="{{ route('user.status', ['id' => $us->user_id]) }}" class="btn btn-warning">
+                                                        <i class="fa fa-times"></i>
+                                                    </a>
+                                                @else
+                                                    <a href="{{ route('user.status', ['id' => $us->user_id]) }}" class="btn btn-secondary">
+                                                        <i class="fas fa-check"></i>
+                                                    </a>
+                                                @endif
+
                                                 @if ($us->is_deleted)
                                                     <a href="{{ route('user.destroy', ['id' => $us->user_id]) }}" class="btn btn-info">
                                                         <i class="fa fa-undo"></i>

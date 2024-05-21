@@ -28,6 +28,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/user/{id}/edit', [UserController::class, 'edit'])->name('user.edit');
     Route::post('/user/{id}/update', [UserController::class, 'update'])->name('user.update');
     Route::get('/user/{id}/delete', [UserController::class, 'destroy'])->name('user.destroy');
+    Route::get('/user/{id}/status', [UserController::class, 'status'])->name('user.status');
 
     Route::get('logout', [LoginController::class, 'logout'])->name('logout');
 });

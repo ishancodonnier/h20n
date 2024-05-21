@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\UserAddress;
 
 class Users extends Model
 {
@@ -36,4 +37,8 @@ class Users extends Model
         'created_date',
         'updated_date'
     ];
+
+    public function address() {
+        return $this->hasMany(UserAddress::class, 'user_token', 'user_token');
+    }
 }

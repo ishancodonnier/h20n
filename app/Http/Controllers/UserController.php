@@ -130,6 +130,24 @@ class UserController extends Controller
         }
     }
 
+    public function status($id)
+    {
+        $user = Users::where('user_id', $id)->first();
+        if($user->is_active == 0) {
+            $user->update([
+                'is_active' => 1,
+                'updated_date' => date('Y-m-d H:i:s')
+            ]);
+            return redirect()->route('user.index')->with('success', 'User enabled successfully!');
+        } else {
+            $user->update([
+                'is_active' => 0,
+                'updated_date' => date('Y-m-d H:i:s')
+            ]);
+            return redirect()->route('user.index')->with('success', 'User disabled successfully!');
+        }
+    }
+
     public function get_unique_id($forcedIncrement = null)
     {
         $machine = str_pad(dechex(rand(0, 16777215)), 6, "0", STR_PAD_LEFT);
