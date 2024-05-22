@@ -13,7 +13,7 @@ class DriverController extends Controller
     public function index()
     {
         $pagetitle = 'Driver';
-        $drivers = Orders::where('user_type', 'DRIVER')->get();
+        $drivers = Users::where('user_type', 'DRIVER')->get();
         return view('driver.index', compact('pagetitle', 'drivers'));
     }
 
