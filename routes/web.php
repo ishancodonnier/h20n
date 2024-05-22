@@ -4,6 +4,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\DriverController;
+use App\Http\Controllers\OrderController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -38,5 +39,11 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/driver/{id}/update', [DriverController::class, 'update'])->name('driver.update');
     Route::get('/driver/{id}/delete', [DriverController::class, 'destroy'])->name('driver.destroy');
 
+    //Order
+    Route::get('/order', [OrderController::class, 'index'])->name('order.index');
+    Route::get('/order/create', [OrderController::class, 'create'])->name('order.create');
+    Route::get('/order/{id}/edit', [OrderController::class, 'edit'])->name('order.edit');
+    Route::get('/order/{id}/delete', [OrderController::class, 'destroy'])->name('order.destroy');
+    
     Route::get('logout', [LoginController::class, 'logout'])->name('logout');
 });

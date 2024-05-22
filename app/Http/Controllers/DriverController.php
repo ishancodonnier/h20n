@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Orders;
 use Illuminate\Http\Request;
 use App\Models\Universities;
 use App\Models\Users;
@@ -12,7 +13,7 @@ class DriverController extends Controller
     public function index()
     {
         $pagetitle = 'Driver';
-        $drivers = Users::where('user_type', 'DRIVER')->get();
+        $drivers = Orders::where('user_type', 'DRIVER')->get();
         return view('driver.index', compact('pagetitle', 'drivers'));
     }
 
