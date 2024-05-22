@@ -24,7 +24,14 @@
                         </p>
                     </a>
                 </li>
-
+                <li class="nav-item">
+                    <a href="{{ route('driver.index') }}" class="nav-link">
+                        <i class="nav-icon fa fa-id-card"></i>
+                        <p>
+                            Driver
+                        </p>
+                    </a>
+                </li>
                 <li class="nav-item">
                     <a href="{{ route('category.index') }}" class="nav-link">
                         <i class="nav-icon fas fa-border-all"></i>
@@ -39,6 +46,14 @@
                         <i class="nav-icon fas fa-tint"></i>
                         <p>
                             Products
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('order.index') }}" class="nav-link">
+                        <i class="nav-icon fas fa-receipt"></i>
+                        <p>
+                            Order
                         </p>
                     </a>
                 </li>

@@ -5,6 +5,8 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\DriverController;
+use App\Http\Controllers\OrderController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -23,7 +25,7 @@ Route::post('login', [LoginController::class, 'login'])->name('login');
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/', [DashboardController::class, 'dashboard'])->name('dashboard');
-
+    //Users
     Route::get('/user', [UserController::class, 'index'])->name('user.index');
     Route::get('/user/create', [UserController::class, 'create'])->name('user.create');
     Route::post('/user', [UserController::class, 'store'])->name('user.store');
@@ -47,6 +49,20 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/product/{id}/delete', [ProductController::class, 'destroy'])->name('product.destroy');
     Route::get('/product/{id}/popular', [ProductController::class, 'popular'])->name('product.popular');
     Route::post('/product/delete-image-resource/{product_id}/{product_resource_id}', [ProductController::class, 'delete_image_from_resource'])->name('product.delete.image.resource');
+
+    //Driver
+    Route::get('/driver', [DriverController::class, 'index'])->name('driver.index');
+    Route::get('/driver/create', [DriverController::class, 'create'])->name('driver.create');
+    Route::post('/driver', [DriverController::class, 'store'])->name('driver.store');
+    Route::get('/driver/{id}/edit', [DriverController::class, 'edit'])->name('driver.edit');
+    Route::post('/driver/{id}/update', [DriverController::class, 'update'])->name('driver.update');
+    Route::get('/driver/{id}/delete', [DriverController::class, 'destroy'])->name('driver.destroy');
+
+    //Order
+    Route::get('/order', [OrderController::class, 'index'])->name('order.index');
+    Route::get('/order/create', [OrderController::class, 'create'])->name('order.create');
+    Route::get('/order/{id}/edit', [OrderController::class, 'edit'])->name('order.edit');
+    Route::get('/order/{id}/delete', [OrderController::class, 'destroy'])->name('order.destroy');
 
     Route::get('logout', [LoginController::class, 'logout'])->name('logout');
 });
