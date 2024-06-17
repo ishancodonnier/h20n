@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="{{ asset('asset/plugins/summernote/summernote-bs4.min.css') }}">
     <link rel="stylesheet" href="{{ asset('asset/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css') }}">
     <link rel="stylesheet" href="{{ asset('asset/plugins/toastr/toastr.min.css') }}">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 @endsection
 @section('content')
     <section class="content">
@@ -42,7 +43,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="product_price">Product Price</label>
-                                            <input type="text"
+                                            <input type="number"
                                                 class="form-control @error('product_price') is-invalid @enderror"
                                                 name="product_price" id="product_price"
                                                 value="{{ $product->product_price }}" placeholder="Enter Product Price">
@@ -229,6 +230,8 @@
         });
 
         $(function() {
+            bsCustomFileInput.init();
+
             var validationRules = {
                 "product_name": "required",
                 "product_price": "required",
@@ -293,7 +296,7 @@
         });
 
         $('.remove_saved_image').on('click', function() {
-            var product_resource_id = $(this).data('product_resource_id');
+            var product_resource_id = $(this).data('product_image_id');
             var product_id = "{{ $product->product_id }}";
             Swal.fire({
                 title: 'Are you sure?',

@@ -39,7 +39,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="product_price">Product Price</label>
-                                            <input type="text"
+                                            <input type="number"
                                                 class="form-control @error('product_price') is-invalid @enderror"
                                                 name="product_price" id="product_price" placeholder="Enter Product Price">
                                             @error('product_price')
@@ -73,15 +73,13 @@
                                             <label for="title">Availabel</label>
                                             <div>
                                                 <div class="icheck-primary d-inline mr-3">
-                                                    <input type="radio" id="active" name="is_available" value="1"
-                                                    @if ($product->is_available == 1) checked @endif>
+                                                    <input type="radio" id="active" name="is_available" value="1" checked>
                                                     <label for="active">
                                                         Yes
                                                     </label>
                                                 </div>
                                                 <div class="icheck-danger d-inline">
-                                                    <input type="radio" name="is_available" id="inactive" value="0"
-                                                    @if ($product->is_available == 0) checked @endif>
+                                                    <input type="radio" name="is_available" id="inactive" value="0">
                                                     <label for="inactive">
                                                         No
                                                     </label>
@@ -158,7 +156,9 @@
 @section('footer-script')
     <script src="{{ asset('asset/plugins/jquery-validation/jquery.validate.min.js') }}"></script>
     <script src="{{ asset('asset/plugins/jquery-validation/additional-methods.min.js') }}"></script>
+
     <script src="{{ asset('asset/plugins/bs-custom-file-input/bs-custom-file-input.min.js') }}"></script>
+    
     <script src="{{ asset('asset/plugins/select2/js/select2.full.min.js') }}"></script>
     <script src="{{ asset('asset/plugins/sweetalert2/sweetalert2.min.js') }}"></script>
     <script src="{{ asset('asset/plugins/toastr/toastr.min.js') }}"></script>
@@ -179,6 +179,8 @@
         });
 
         $(function() {
+
+            bsCustomFileInput.init();
 
             var validationRules = {
                 "product_name": "required",

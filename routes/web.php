@@ -7,6 +7,8 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\DriverController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\WarehouseController;
+use App\Http\Controllers\DeliveryAreaController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -58,8 +60,30 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/driver/{id}/update', [DriverController::class, 'update'])->name('driver.update');
     Route::get('/driver/{id}/delete', [DriverController::class, 'destroy'])->name('driver.destroy');
 
+    //Warehouse
+    Route::get('/warehouse', [WarehouseController::class, 'index'])->name('warehouse.index');
+    Route::get('/warehouse/create', [WarehouseController::class, 'create'])->name('warehouse.create');
+    Route::post('/warehouse', [WarehouseController::class, 'store'])->name('warehouse.store');
+    Route::get('/warehouse/{id}/edit', [WarehouseController::class, 'edit'])->name('warehouse.edit');
+    Route::post('/warehouse/{id}/update', [WarehouseController::class, 'update'])->name('warehouse.update');
+    Route::get('/warehouse/{id}/delete', [WarehouseController::class, 'destroy'])->name('warehouse.destroy');
+
+    //Delivery Area
+    Route::get('/delivery-area', [DeliveryAreaController::class, 'index'])->name('delivery.area.index');
+    Route::get('/delivery-area/create', [DeliveryAreaController::class, 'create'])->name('delivery.area.create');
+    Route::post('/delivery-area', [DeliveryAreaController::class, 'store'])->name('delivery.area.store');
+    Route::get('/delivery-area/{id}/edit', [DeliveryAreaController::class, 'edit'])->name('delivery.area.edit');
+    Route::post('/delivery-area/{id}/update', [DeliveryAreaController::class, 'update'])->name('delivery.area.update');
+    Route::get('/delivery-area/{id}/delete', [DeliveryAreaController::class, 'destroy'])->name('delivery.area.destroy');
+
     //Order
     Route::get('/order', [OrderController::class, 'index'])->name('order.index');
+    Route::get('/order/data', [OrderController::class, 'data'])->name('order.index.data');
+
+    Route::post('/order/contact/edit', [OrderController::class, 'contact_edit'])->name('order.contact.edit');
+    Route::post('/order/contact/update', [OrderController::class, 'contact_update'])->name('order.contact.update');
+    Route::post('/order/assign/driver', [OrderController::class, 'driver_assign'])->name('store.assign.to.driver');
+
     Route::get('/order/create', [OrderController::class, 'create'])->name('order.create');
     Route::get('/order/{id}/edit', [OrderController::class, 'edit'])->name('order.edit');
     Route::get('/order/{id}/delete', [OrderController::class, 'destroy'])->name('order.destroy');

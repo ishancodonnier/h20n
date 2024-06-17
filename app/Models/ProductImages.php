@@ -20,7 +20,7 @@ class ProductImages extends Model
         'product_resource_secondary_name',
         'product_resource_type',
         'is_deleted',
-        'is_created',
-        'is_updated'
+        'created_date',
+        'updated_date'
     ];
 }

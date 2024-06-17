@@ -12,7 +12,7 @@ class ProductController extends Controller
     public function index()
     {
         $pagetitle = 'Products';
-        $products = Products::with(['category'])->get();
+        $products = Products::where('is_deleted', 0)->with(['category'])->get();
         return view('product.index', compact('pagetitle', 'products'));
     }
 
@@ -147,7 +147,7 @@ class ProductController extends Controller
 
         $product->update($data);
 
-        return redirect()->route('user.index')->with('success', 'Product updated successfully!');
+        return redirect()->route('product.index')->with('success', 'Product updated successfully!');
     }
 
     public function destroy($id)
