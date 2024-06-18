@@ -4,6 +4,24 @@
     <link rel="stylesheet" href="{{ asset('asset/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
     <link rel="stylesheet" href="{{ asset('asset/plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <style>
+        .custom-specific-table {
+            margin-bottom: 0px;
+        }
+
+        .card-footer {
+            padding-top: 5px;
+        }
+
+        .custom-specific-table td {
+            padding: 5px;
+            border-top: 0px solid;
+        }
+
+        .custom-specific-table .total_amt {
+            border-top: 1px solid #dee2e6;
+        }
+    </style>
 @endsection
 @section('content')
 
@@ -81,7 +99,7 @@
 
     <div class="modal fade" id="add_contact_details">
         <form id="contact_details_form">
-            <div class="modal-dialog modal-lg">
+            <div class="modal-dialog modal-xl">
                 <input type="hidden" name="contact_order_id" id="contact_order_id">
 
                 <div class="modal-content">
@@ -147,7 +165,6 @@
                             </div>
                         </div>
 
-
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -169,6 +186,40 @@
                             </div>
                         </div>
 
+                        <div class="row">
+                            <div class="card w-100">
+                                <div class="card-header">
+                                    <h4 class="card-title font-weight-bold">Products</>
+                                </div>
+                                <div class="card-body" id="products_div">
+
+                                </div>
+                                <div class="card-footer">
+                                    <div class="row float-right">
+                                        <table class="table custom-specific-table">
+                                            <tbody>
+                                                <tr>
+                                                    <td>Item Amount:</td>
+                                                    <td id="item_amount"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Taxes:</td>
+                                                    <td id="order_taxes"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Delivery Charges:</td>
+                                                    <td id="delivery_charges"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="total_amt">Total Amount:</td>
+                                                    <td class="total_amt" id="total_amount"></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="modal-footer justify-content-between">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -353,9 +404,7 @@
                     order_id: order_id,
                 },
                 success: function(response) {
-
                     var responseObject = JSON.parse(response);
-
                     $("#contact_order_id").val(order_id);
                     $("#contact_name").val(responseObject.contact_name);
                     $("#contact_number").val(responseObject.contact_number);
@@ -364,12 +413,56 @@
                     $("#local_area_id").val(responseObject.local_area_id);
                     $("#edit_assigned_driver").val(responseObject.driver_token);
                     $("#delivery_time").val(responseObject.delivery_time);
+
+                    $("#item_amount").html('$ ' + responseObject.item_amount);
+                    $("#order_taxes").html('$ ' + responseObject.taxes);
+                    $("#delivery_charges").html('$ ' + responseObject.delivery_charge);
+                    $("#total_amount").html('$ ' + responseObject.total_amount);
+
+                    $('#products_div').html("");
+                    var html = `<table class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Description</th>
+                                    <th>Category</th>
+                                    <th>Quantity</th>
+                                    <th>Price</th>
+                                </tr>
+                            </thead>
+                            <tbody>`
+                        if(responseObject.products) {
+                            var products = responseObject.products;
+                            if(products.length > 0) {
+                                products.forEach(function(type, index) {
+                                    html += `<tr>
+                                        <td>${type.product_name}</td>
+                                        <td>${truncateString(type.product_description, 40)}</td>
+                                        <td>${type.category.product_category_name}</td>
+                                        <td>${type.quantity}</td>
+                                        <td>$ ${type.product_price}</td>
+                                    </tr>`;
+                                });
+                            } else {
+                                html += `<tr>
+                                        <td colspan="5">
+                                            No Products Found
+                                        </td>
+                                    </tr>`;
+                            }
+                        }
+                    html += `</tbody></table>`;
+                    $('#products_div').html(html);
                 },
                 error: function(xhr, status, error) {
                     console.error(error);
                 }
             });
         });
+
+        function truncateString(str, num) {
+            return str.length > num ? str.slice(0, num) + '...' : str;
+        }
 
         $(document).on('click', '#submitButton', function() {
             var contact_order_id = $('#contact_order_id').val();
@@ -379,6 +472,7 @@
             var warehouse_zone = $("#warehouse_zone").val();
             var local_area_id = $("#local_area_id").val();
             var delivery_time = $("#delivery_time").val();
+            var assigned_driver = $("#edit_assigned_driver").val();
 
             $.ajax({
                 url: '{!! route('order.contact.update') !!}',
@@ -394,6 +488,7 @@
                     local_area_id: local_area_id,
                     warehouse_zone: warehouse_zone,
                     delivery_time: delivery_time,
+                    assigned_driver: assigned_driver,
                 },
                 success: function(response) {
                     $('#add_contact_details').modal('hide');

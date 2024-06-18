@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Orders;
 use DateTime;
 use Illuminate\Http\Request;
+use Str;
 
 class OrderController extends Controller
 {
@@ -68,10 +69,12 @@ class OrderController extends Controller
                 $query->where('contact_name', 'like', '%' . $search . '%')
                     ->orWhere('contact_number', 'like', '%' . $search . '%')
                     ->orWhereHas('user', function ($user_query) use($search){
-                        $user_query->where('first_name', 'like', '%' . $search . '%');
+                        $user_query->where('first_name', 'like', '%' . $search . '%')
+                        ->orWhere('last_name', 'like', '%' . $search . '%');
                     })
                     ->orWhereHas('driver', function ($driver_query) use($search){
-                        $driver_query->where('first_name', 'like', '%' . $search . '%');
+                        $driver_query->where('first_name', 'like', '%' . $search . '%')
+                        ->orWhere('last_name', 'like', '%' . $search . '%');
                     })
                     ->orWhereHas('warehouse', function ($ware_query) use($search){
                         $ware_query->where('warehouse_name', 'like', '%' . $search . '%');
@@ -128,13 +131,13 @@ class OrderController extends Controller
 
             $record[$k]['order_id'] = $value->order_hash_id;
             $record[$k]['order_date'] = $formattedDate;
-            $record[$k]['user'] = $value->user ? $value->user->first_name : "";
-            $record[$k]['address'] = $value->address ? $value->address->address_line1 : "";
+            $record[$k]['user'] = $value->user ? ($value->user->first_name . ' ' . $value->user->last_name) : "";
+            $record[$k]['address'] = $value->address ? (Str::limit($value->address->address_line1, 15, '...')) : "";
             $record[$k]['contact_name'] = $value->contact_name ?? "";
             $record[$k]['contact_number'] = $value->contact_number ?? "";
             $record[$k]['warehouse'] = $value->warehouse ? $value->warehouse->warehouse_name : "";
             $record[$k]['local_area'] = $value->local_area ? $value->local_area->delivery_area_name : "";
-            $record[$k]['driver'] = $value->driver ? $value->driver->first_name : "";
+            $record[$k]['driver'] = $value->driver ? ($value->driver->first_name . ' ' . $value->driver->last_name) : "";
             $record[$k]['delivery_date'] = $deliveryFormattedDate;
             $record[$k]['order_status'] = $value->order_status;
             $record[$k]['order_action'] = $action;
@@ -154,7 +157,7 @@ class OrderController extends Controller
 
     public function contact_edit(Request $request) {
         $order_id = $request->order_id;
-        $order = Orders::where('order_id', $order_id)->with(['driver', 'user', 'address'])->first();
+        $order = Orders::where('order_id', $order_id)->with(['driver', 'user', 'address', 'warehouse', 'local_area'])->first();
 
         $result['contact_name'] = $order->contact_name;
         $result['contact_number'] = $order->contact_number;
@@ -163,7 +166,11 @@ class OrderController extends Controller
         $result['local_area_id'] = $order->local_area_id;
         $result['driver_token'] = $order->driver ? $order->driver->user_token : "";
         $result['delivery_time'] = $order->delivery_time ?? "";
-
+        $result['products'] = $order->products;
+        $result['item_amount'] = $order->item_amount ?? 0;
+        $result['taxes'] = $order->taxes ?? 0;
+        $result['delivery_charge'] = $order->delivery_charge ?? 0;
+        $result['total_amount'] = $order->total_amount ?? 0;
         $result['status'] = true;
 
         echo json_encode($result);
@@ -179,6 +186,7 @@ class OrderController extends Controller
         $local_area_id = $request->local_area_id;
         $warehouse_zone = $request->warehouse_zone;
         $delivery_time = $request->delivery_time;
+        $assigned_driver = $request->assigned_driver;
 
         $order_detail = Orders::where('order_id', $contact_order_id)->first();
 
@@ -188,7 +196,10 @@ class OrderController extends Controller
             'area_zone' => $area_zone ?? "",
             'local_area_id' => $local_area_id ?? "",
             'warehouse_id' => $warehouse_zone ?? "",
-            'delivery_time' => $delivery_time ?? ""
+            'delivery_time' => $delivery_time ?? "",
+            'driver_token' => $assigned_driver ?? "",
+            'order_status' => 'PROCESSING',
+            'updated_date' => date('Y-m-d H:i:s'),
         ];
 
         $order_detail->update($data);
