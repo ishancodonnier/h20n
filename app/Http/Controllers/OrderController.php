@@ -196,7 +196,7 @@ class OrderController extends Controller
             'area_zone' => $area_zone ?? "",
             'local_area_id' => $local_area_id ?? "",
             'warehouse_id' => $warehouse_zone ?? "",
-            'delivery_time' => $delivery_time ?? "",
+            'delivery_time' => $delivery_time ?? "0000-00-00 00:00:00",
             'driver_token' => $assigned_driver ?? "",
             'order_status' => 'PROCESSING',
             'updated_date' => date('Y-m-d H:i:s'),
