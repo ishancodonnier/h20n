@@ -28,7 +28,7 @@
 
     @php
         $drivers = App\Models\Users::where('user_type', 'DRIVER')->get();
-        $ware_houses = App\Models\Warehouse::where('is_deleted', 0)->get();
+        // $ware_houses = App\Models\Warehouse::where('is_deleted', 0)->get();
         $delivery_area = App\Models\DeliveryArea::where('is_deleted', 0)->get();
     @endphp
 
@@ -123,44 +123,6 @@
                                 <div class="form-group">
                                     <label for="contact_number">Contact Number</label>
                                     <input type="number" name="contact_number" class="form-control" id="contact_number" placeholder="Enter Contact Number">
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <input type="hidden" id="area_zone" name="area_zone" value="">
-                            {{-- <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="area_zone">Area Zones</label>
-                                    <select class="form-control" id="area_zone" name="area_zone">
-                                        <option value="">Please Select Notes</option>
-                                        <option value="Warehouse">Warehouse</option>
-                                        <option value="Local">Local</option>
-                                    </select>
-                                </div>
-                            </div> --}}
-
-                            <div class="col-md-6 warehouse-div">
-                                <div class="form-group">
-                                    <label for="warehouse_zone">Warehouse</label>
-                                    <select class="form-control" id="warehouse_zone" name="warehouse_zone">
-                                        <option value="">Please Select Warehouse</option>
-                                        @foreach ($ware_houses as $wrh)
-                                            <option value="{{ $wrh->warehouse_id }}">{{ $wrh->warehouse_name }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="col-md-6 local-area-div">
-                                <div class="form-group">
-                                    <label for="local_area_id">Local Area</label>
-                                    <select class="form-control" id="local_area_id" name="local_area_id">
-                                        <option value="">Please Select Area</option>
-                                        @foreach ($delivery_area as $local)
-                                            <option value="{{ $local->delivery_area_id }}">{{ $local->delivery_area_name }}</option>
-                                        @endforeach
-                                    </select>
                                 </div>
                             </div>
                         </div>
@@ -375,19 +337,19 @@
             order_list_table.draw();
         });
 
-        $(document).on('change', '#area_zone', function() {
-            var zone = $(this).val();
-            if(zone == "") {
-                $('.warehouse-div').css('display', 'none');
-                $('.local-area-div').css('display', 'none');
-            }else if(zone == 'Warehouse') {
-                $('.warehouse-div').css('display', 'block');
-                $('.local-area-div').css('display', 'none');
-            } else {
-                $('.local-area-div').css('display', 'block');
-                $('.warehouse-div').css('display', 'none');
-            }
-        });
+        // $(document).on('change', '#area_zone', function() {
+        //     var zone = $(this).val();
+        //     if(zone == "") {
+        //         $('.warehouse-div').css('display', 'none');
+        //         $('.local-area-div').css('display', 'none');
+        //     }else if(zone == 'Warehouse') {
+        //         $('.warehouse-div').css('display', 'block');
+        //         $('.local-area-div').css('display', 'none');
+        //     } else {
+        //         $('.local-area-div').css('display', 'block');
+        //         $('.warehouse-div').css('display', 'none');
+        //     }
+        // });
 
         $(document).on('click', '.edit_contact_details', function() {
             var order_id = $(this).data('order_id');
@@ -408,9 +370,6 @@
                     $("#contact_order_id").val(order_id);
                     $("#contact_name").val(responseObject.contact_name);
                     $("#contact_number").val(responseObject.contact_number);
-                    $("#area_zone").val(responseObject.area_zone);
-                    $("#warehouse_zone").val(responseObject.warehouse_zone);
-                    $("#local_area_id").val(responseObject.local_area_id);
                     $("#edit_assigned_driver").val(responseObject.driver_token);
                     $("#delivery_time").val(responseObject.delivery_time);
 
@@ -468,9 +427,6 @@
             var contact_order_id = $('#contact_order_id').val();
             var contact_name = $("#contact_name").val();
             var contact_number = $("#contact_number").val();
-            var area_zone = $("#area_zone").val();
-            var warehouse_zone = $("#warehouse_zone").val();
-            var local_area_id = $("#local_area_id").val();
             var delivery_time = $("#delivery_time").val();
             var assigned_driver = $("#edit_assigned_driver").val();
 
@@ -484,9 +440,6 @@
                     contact_order_id: contact_order_id,
                     contact_name: contact_name,
                     contact_number: contact_number,
-                    area_zone: area_zone,
-                    local_area_id: local_area_id,
-                    warehouse_zone: warehouse_zone,
                     delivery_time: delivery_time,
                     assigned_driver: assigned_driver,
                 },

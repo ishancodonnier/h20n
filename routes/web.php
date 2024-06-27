@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AddressController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\UserController;
@@ -75,6 +76,12 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/delivery-area/{id}/edit', [DeliveryAreaController::class, 'edit'])->name('delivery.area.edit');
     Route::post('/delivery-area/{id}/update', [DeliveryAreaController::class, 'update'])->name('delivery.area.update');
     Route::get('/delivery-area/{id}/delete', [DeliveryAreaController::class, 'destroy'])->name('delivery.area.destroy');
+
+    //Address
+    Route::get('/user-address', [AddressController::class, 'index'])->name('address.index');
+    Route::get('/user-address/data', [AddressController::class, 'data'])->name('address.index.data');
+    Route::post('/address/warehouse/edit', [AddressController::class, 'warehouse_edit'])->name('address.warehouse.edit');
+    Route::post('/address/warehouse/update', [AddressController::class, 'warehouse_update'])->name('address.warehouse.update');
 
     //Order
     Route::get('/order', [OrderController::class, 'index'])->name('order.index');
