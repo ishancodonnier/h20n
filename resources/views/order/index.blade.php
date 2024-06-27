@@ -29,7 +29,7 @@
     @php
         $drivers = App\Models\Users::where('user_type', 'DRIVER')->get();
         // $ware_houses = App\Models\Warehouse::where('is_deleted', 0)->get();
-        $delivery_area = App\Models\DeliveryArea::where('is_deleted', 0)->get();
+        // $delivery_area = App\Models\DeliveryArea::where('is_deleted', 0)->get();
     @endphp
 
     <section class="content">
@@ -47,14 +47,14 @@
 
                             <div class="row form-group" style="justify-content: right; gap: 10px;">
 
-                                <div class="col-md-3">
+                                {{-- <div class="col-md-3">
                                     <select class="form-control" id="filter_area">
                                         <option value="">All</option>
                                         @foreach ($delivery_area as $local)
                                             <option value="{{ $local->delivery_area_id }}">{{ $local->delivery_area_name }}</option>
                                         @endforeach
                                     </select>
-                                </div>
+                                </div> --}}
 
                                 <div class="col-md-2">
                                     <input type="date" id="filter_date" class="form-control">
@@ -325,9 +325,9 @@
             },
         });
 
-        $(document).on('change', '#filter_area', function() {
-            order_list_table.draw();
-        });
+        // $(document).on('change', '#filter_area', function() {
+        //     order_list_table.draw();
+        // });
 
         $(document).on('change', '#filter_date', function() {
             order_list_table.draw();

@@ -42,8 +42,14 @@ class AddressController extends Controller
         if ($sort_col == 6) {
             $sort_col = 'address_type';
         }
+        if ($sort_col == 7) {
+            $sort_col = 'warehouse_id';
+        }
+        if ($sort_col == 8) {
+            $sort_col = 'local_area_id';
+        }
 
-        $address = UserAddress::with(['user', 'warehouse', 'local_area']);
+        $address = UserAddress::with(['user', 'warehouse']);
 
         if (!empty($search)) {
             $address->where(function ($query) use ($search) {
@@ -53,12 +59,13 @@ class AddressController extends Controller
                     ->orWhere('state', 'like', '%' . $search . '%')
                     ->orWhere('zip_code', 'like', '%' . $search . '%')
                     ->orWhere('address_type', 'like', '%' . $search . '%')
+                    ->orWhere('local_area_id', 'like', '%' . $search . '%')
                     ->orWhereHas('warehouse', function ($ware_query) use($search){
                         $ware_query->where('warehouse_name', 'like', '%' . $search . '%');
-                    })
-                    ->orWhereHas('local_area', function ($area_query) use($search){
-                        $area_query->where('delivery_area_name', 'like', '%' . $search . '%');
                     });
+                    // ->orWhereHas('local_area', function ($area_query) use($search){
+                    //     $area_query->where('delivery_area_name', 'like', '%' . $search . '%');
+                    // });
             });
         }
 
@@ -84,7 +91,7 @@ class AddressController extends Controller
             $record[$k]['zip_code'] = $value->zip_code ?? "";
             $record[$k]['address_type'] = $value->address_type ?? "";
             $record[$k]['warehouse'] = $value->warehouse ? $value->warehouse->warehouse_name : "";
-            $record[$k]['local_area'] = $value->local_area ? $value->local_area->delivery_area_name : "";
+            $record[$k]['local_area'] = $value->local_area_id ?? "";
             $record[$k]['action'] = $action;
             $k++;
         }

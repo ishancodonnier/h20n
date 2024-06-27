@@ -70,12 +70,12 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/warehouse/{id}/delete', [WarehouseController::class, 'destroy'])->name('warehouse.destroy');
 
     //Delivery Area
-    Route::get('/delivery-area', [DeliveryAreaController::class, 'index'])->name('delivery.area.index');
-    Route::get('/delivery-area/create', [DeliveryAreaController::class, 'create'])->name('delivery.area.create');
-    Route::post('/delivery-area', [DeliveryAreaController::class, 'store'])->name('delivery.area.store');
-    Route::get('/delivery-area/{id}/edit', [DeliveryAreaController::class, 'edit'])->name('delivery.area.edit');
-    Route::post('/delivery-area/{id}/update', [DeliveryAreaController::class, 'update'])->name('delivery.area.update');
-    Route::get('/delivery-area/{id}/delete', [DeliveryAreaController::class, 'destroy'])->name('delivery.area.destroy');
+    // Route::get('/delivery-area', [DeliveryAreaController::class, 'index'])->name('delivery.area.index');
+    // Route::get('/delivery-area/create', [DeliveryAreaController::class, 'create'])->name('delivery.area.create');
+    // Route::post('/delivery-area', [DeliveryAreaController::class, 'store'])->name('delivery.area.store');
+    // Route::get('/delivery-area/{id}/edit', [DeliveryAreaController::class, 'edit'])->name('delivery.area.edit');
+    // Route::post('/delivery-area/{id}/update', [DeliveryAreaController::class, 'update'])->name('delivery.area.update');
+    // Route::get('/delivery-area/{id}/delete', [DeliveryAreaController::class, 'destroy'])->name('delivery.area.destroy');
 
     //Address
     Route::get('/user-address', [AddressController::class, 'index'])->name('address.index');

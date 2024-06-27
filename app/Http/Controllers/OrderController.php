@@ -18,7 +18,7 @@ class OrderController extends Controller
 
     public function data()
     {
-        $filter_area = request('filter_area');
+        // $filter_area = request('filter_area');
         $filter_date = request('filter_date');
         $filter_time = request('filter_time');
 
@@ -63,7 +63,7 @@ class OrderController extends Controller
         }
 
         $orders = Orders::with(['driver', 'user', 'address' => function($add) {
-            $add->with(['warehouse', 'local_area']);
+            $add->with(['warehouse']);
         }]);
 
         if (!empty($search)) {
@@ -80,23 +80,24 @@ class OrderController extends Controller
                     })
                     ->orWhereHas('address', function ($address_query) use($search){
                         $address_query->where('address_line1', 'like', '%' . $search . '%')
+                            ->orWhere('local_area_id', 'like', '%' . $search . '%')
                             ->orWhereHas('warehouse', function ($ware_query) use($search){
                                 $ware_query->where('warehouse_name', 'like', '%' . $search . '%');
-                            })
-                            ->orWhereHas('local_area', function ($area_query) use($search){
-                                $area_query->where('delivery_area_name', 'like', '%' . $search . '%');
                             });
+                            // ->orWhereHas('local_area', function ($area_query) use($search){
+                            //     $area_query->where('delivery_area_name', 'like', '%' . $search . '%');
+                            // });
                     });
             });
         }
 
-        if($filter_area) {
-            $orders->WhereHas('address', function ($address_query) use($filter_area){
-                $address_query->whereHas('local_area', function ($area_query) use($filter_area){
-                    $area_query->where('delivery_area_id', $filter_area);
-                });
-            });
-        }
+        // if($filter_area) {
+        //     $orders->WhereHas('address', function ($address_query) use($filter_area){
+        //         $address_query->whereHas('local_area', function ($area_query) use($filter_area){
+        //             $area_query->where('delivery_area_id', $filter_area);
+        //         });
+        //     });
+        // }
 
         if($filter_date) {
             $orders->whereDate('delivery_time', $filter_date);
@@ -142,7 +143,7 @@ class OrderController extends Controller
             $record[$k]['contact_name'] = $value->contact_name ?? "";
             $record[$k]['contact_number'] = $value->contact_number ?? "";
             $record[$k]['warehouse'] = $value->address ? ($value->address->warehouse ? $value->address->warehouse->warehouse_name : "") : "";
-            $record[$k]['local_area'] = $value->address ? ($value->address->local_area ? $value->address->local_area->delivery_area_name : "") : "";
+            $record[$k]['local_area'] = $value->address ? $value->address->local_area_id : "";
             $record[$k]['driver'] = $value->driver ? ($value->driver->first_name . ' ' . $value->driver->last_name) : "";
             $record[$k]['delivery_date'] = $deliveryFormattedDate;
             $record[$k]['order_status'] = $value->order_status;

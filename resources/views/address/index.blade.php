@@ -101,12 +101,7 @@
                             <div class="col-12 local-area-div">
                                 <div class="form-group">
                                     <label for="local_area_id">Local Area</label>
-                                    <select class="form-control" id="local_area_id" name="local_area_id">
-                                        <option value="">Please Select Area</option>
-                                        @foreach ($delivery_area as $local)
-                                            <option value="{{ $local->delivery_area_id }}">{{ $local->delivery_area_name }}</option>
-                                        @endforeach
-                                    </select>
+                                    <input type="text" class="form-control" id="local_area_id" name="local_area_id" placeholder="Enter Local Area Name">
                                 </div>
                             </div>
                         </div>
