@@ -10,6 +10,7 @@ use App\Http\Controllers\DriverController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\WarehouseController;
 use App\Http\Controllers\DeliveryAreaController;
+use App\Http\Controllers\StaffController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -70,12 +71,12 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/warehouse/{id}/delete', [WarehouseController::class, 'destroy'])->name('warehouse.destroy');
 
     //Delivery Area
-    // Route::get('/delivery-area', [DeliveryAreaController::class, 'index'])->name('delivery.area.index');
-    // Route::get('/delivery-area/create', [DeliveryAreaController::class, 'create'])->name('delivery.area.create');
-    // Route::post('/delivery-area', [DeliveryAreaController::class, 'store'])->name('delivery.area.store');
-    // Route::get('/delivery-area/{id}/edit', [DeliveryAreaController::class, 'edit'])->name('delivery.area.edit');
-    // Route::post('/delivery-area/{id}/update', [DeliveryAreaController::class, 'update'])->name('delivery.area.update');
-    // Route::get('/delivery-area/{id}/delete', [DeliveryAreaController::class, 'destroy'])->name('delivery.area.destroy');
+    Route::get('/delivery-area', [DeliveryAreaController::class, 'index'])->name('delivery.area.index');
+    Route::get('/delivery-area/create', [DeliveryAreaController::class, 'create'])->name('delivery.area.create');
+    Route::post('/delivery-area', [DeliveryAreaController::class, 'store'])->name('delivery.area.store');
+    Route::get('/delivery-area/{id}/edit', [DeliveryAreaController::class, 'edit'])->name('delivery.area.edit');
+    Route::post('/delivery-area/{id}/update', [DeliveryAreaController::class, 'update'])->name('delivery.area.update');
+    Route::get('/delivery-area/{id}/delete', [DeliveryAreaController::class, 'destroy'])->name('delivery.area.destroy');
 
     //Address
     Route::get('/user-address', [AddressController::class, 'index'])->name('address.index');
@@ -94,6 +95,18 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/order/create', [OrderController::class, 'create'])->name('order.create');
     Route::get('/order/{id}/edit', [OrderController::class, 'edit'])->name('order.edit');
     Route::get('/order/{id}/delete', [OrderController::class, 'destroy'])->name('order.destroy');
+
+    //Billing Staff
+    Route::get('/staff', [StaffController::class, 'index'])->name('staff.index');
+    Route::get('/staff/create', [StaffController::class, 'create'])->name('staff.create');
+    Route::post('/staff', [StaffController::class, 'store'])->name('staff.store');
+    Route::get('/staff/{id}/edit', [StaffController::class, 'edit'])->name('staff.edit');
+    Route::post('/staff/{id}/update', [StaffController::class, 'update'])->name('staff.update');
+
+    Route::get('/staff/{id}/password', [StaffController::class, 'change_password'])->name('staff.change.password');
+    Route::post('/staff/{id}/update-password', [StaffController::class, 'update_password'])->name('staff.update.password');
+
+    Route::get('/staff/{id}/delete', [StaffController::class, 'destroy'])->name('staff.destroy');
 
     Route::get('logout', [LoginController::class, 'logout'])->name('logout');
 });

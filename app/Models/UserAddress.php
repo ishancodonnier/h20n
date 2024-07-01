@@ -43,8 +43,8 @@ class UserAddress extends Model
         return $this->hasOne(Warehouse::class, 'warehouse_id', 'warehouse_id');
     }
 
-    // public function local_area()
-    // {
-    //     return $this->hasOne(DeliveryArea::class, 'delivery_area_id', 'local_area_id');
-    // }
+    public function local_area()
+    {
+        return $this->hasOne(DeliveryArea::class, 'delivery_area_id', 'local_area_id');
+    }
 }

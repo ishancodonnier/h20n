@@ -67,14 +67,14 @@
                     </a>
                 </li>
 
-                {{-- <li class="nav-item">
+                <li class="nav-item">
                     <a href="{{ route('delivery.area.index') }}" class="nav-link">
                         <i class="nav-icon fas fa-warehouse"></i>
                         <p>
                             Delivery Area
                         </p>
                     </a>
-                </li> --}}
+                </li>
 
                 <li class="nav-item">
                     <a href="{{ route('order.index') }}" class="nav-link">
@@ -84,6 +84,16 @@
                         </p>
                     </a>
                 </li>
+
+                <li class="nav-item">
+                    <a href="{{ route('staff.index') }}" class="nav-link">
+                        <i class="nav-icon fas fa-users"></i>
+                        <p>
+                            Billing Staff
+                        </p>
+                    </a>
+                </li>
+
             </ul>
         </nav>
     </div>

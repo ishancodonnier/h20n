@@ -49,7 +49,7 @@ class AddressController extends Controller
             $sort_col = 'local_area_id';
         }
 
-        $address = UserAddress::with(['user', 'warehouse']);
+        $address = UserAddress::with(['user', 'warehouse', 'local_area']);
 
         if (!empty($search)) {
             $address->where(function ($query) use ($search) {
@@ -62,10 +62,10 @@ class AddressController extends Controller
                     ->orWhere('local_area_id', 'like', '%' . $search . '%')
                     ->orWhereHas('warehouse', function ($ware_query) use($search){
                         $ware_query->where('warehouse_name', 'like', '%' . $search . '%');
+                    })
+                    ->orWhereHas('local_area', function ($area_query) use($search){
+                        $area_query->where('delivery_area_name', 'like', '%' . $search . '%');
                     });
-                    // ->orWhereHas('local_area', function ($area_query) use($search){
-                    //     $area_query->where('delivery_area_name', 'like', '%' . $search . '%');
-                    // });
             });
         }
 
@@ -91,7 +91,7 @@ class AddressController extends Controller
             $record[$k]['zip_code'] = $value->zip_code ?? "";
             $record[$k]['address_type'] = $value->address_type ?? "";
             $record[$k]['warehouse'] = $value->warehouse ? $value->warehouse->warehouse_name : "";
-            $record[$k]['local_area'] = $value->local_area_id ?? "";
+            $record[$k]['local_area'] = $value->local_area ? $value->local_area->delivery_area_name : "";
             $record[$k]['action'] = $action;
             $k++;
         }
